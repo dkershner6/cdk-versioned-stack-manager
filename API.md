@@ -119,6 +119,7 @@ The tree node.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#cdk-versioned-stack-manager.IVersionedStackManagerProps.property.numberOfStacksToKeep">numberOfStacksToKeep</a></code> | <code>number</code> | The number of stacks to keep. |
+| <code><a href="#cdk-versioned-stack-manager.IVersionedStackManagerProps.property.requestId">requestId</a></code> | <code>string</code> | Change this field whenever you would like the VersionedStackManager to run. |
 | <code><a href="#cdk-versioned-stack-manager.IVersionedStackManagerProps.property.stackNamePrefix">stackNamePrefix</a></code> | <code>string</code> | The beginning of the stack name must be consistent for the versioned stacks. |
 | <code><a href="#cdk-versioned-stack-manager.IVersionedStackManagerProps.property.dryRun">dryRun</a></code> | <code>boolean</code> | Will only log what it was going to do, rather than actually doing it. |
 | <code><a href="#cdk-versioned-stack-manager.IVersionedStackManagerProps.property.sortDirection">sortDirection</a></code> | <code>string</code> | In case you want to sort the stacks in a different way than the default. |
@@ -134,6 +135,20 @@ public readonly numberOfStacksToKeep: number;
 - *Type:* number
 
 The number of stacks to keep.
+
+---
+
+##### `requestId`<sup>Required</sup> <a name="requestId" id="cdk-versioned-stack-manager.IVersionedStackManagerProps.property.requestId"></a>
+
+```typescript
+public readonly requestId: string;
+```
+
+- *Type:* string
+
+Change this field whenever you would like the VersionedStackManager to run.
+
+The value can be anything, it is simply here as a trigger, and will do so on every change.
 
 ---
 
