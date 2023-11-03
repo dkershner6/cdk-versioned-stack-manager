@@ -122,10 +122,12 @@ class VersionedStackManagerCreateAndUpdater {
           ? 1
           : -1;
       })
-      .slice(this.resourceProperties.numberOfStacksToKeep - 1);
+      .slice(this.resourceProperties.numberOfStacksToKeep);
 
     console.debug(
-      `Deleting Stacks (dryRun: ${this.resourceProperties.dryRun ?? false}): `,
+      `Deleting ${stacksToDelete.length} Stacks (dryRun: ${
+        this.resourceProperties.dryRun ?? false
+      }): `,
       stacksToDelete.map((s) => s.StackName),
     );
 

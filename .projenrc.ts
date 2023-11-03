@@ -12,7 +12,18 @@ const project = new awscdk.AwsCdkConstructLibrary({
     "https://github.com/dkershner6/cdk-versioned-stack-manager.git",
 
   // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
+  description:
+    "A CDK construct for dealing with Versioned Stacks - multiple copies of the same stack that would forever grow over time without...this.",
+  keywords: [
+    "awscdk",
+    "aws",
+    "cdk",
+    "cloudformation",
+    "stack",
+    "versioned",
+    "delete",
+  ],
+
   devDeps: ["@types/aws-lambda"] /* Build dependencies for this module. */,
   bundledDeps: ["@aws-sdk/client-cloudformation"],
   packageName: "cdk-versioned-stack-manager" /* The "name" in package.json. */,

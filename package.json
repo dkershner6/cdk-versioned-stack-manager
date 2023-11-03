@@ -1,5 +1,6 @@
 {
   "name": "cdk-versioned-stack-manager",
+  "description": "A CDK construct for dealing with Versioned Stacks - multiple copies of the same stack that would forever grow over time without...this.",
   "repository": {
     "type": "git",
     "url": "https://github.com/dkershner6/cdk-versioned-stack-manager.git"
@@ -73,7 +74,13 @@
     "@aws-sdk/client-cloudformation"
   ],
   "keywords": [
-    "cdk"
+    "aws",
+    "awscdk",
+    "cdk",
+    "cloudformation",
+    "delete",
+    "stack",
+    "versioned"
   ],
   "main": "lib/index.js",
   "license": "Apache-2.0",
