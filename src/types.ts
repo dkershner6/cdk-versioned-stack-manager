@@ -9,6 +9,11 @@ export interface IVersionedStackManagerProps {
    */
   readonly numberOfStacksToKeep: number;
   /**
+   * Change this field whenever you would like the VersionedStackManager to run.
+   * The value can be anything, it is simply here as a trigger, and will do so on every change.
+   */
+  readonly requestId: string;
+  /**
    * The beginning of the stack name must be consistent for the versioned stacks.
    *
    * In this way, we can only give minimal access to ONLY the stacks needed, so it is impossible to delete the wrong stacks.
