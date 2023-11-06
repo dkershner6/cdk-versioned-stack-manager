@@ -8,7 +8,7 @@ import * as lambdanodejs from "aws-cdk-lib/aws-lambda-nodejs";
 
 import * as cr from "aws-cdk-lib/custom-resources";
 import { Construct } from "constructs";
-import { IVersionedStackManagerProps } from "./types";
+import { IVersionedStackManagerProps, validateProps } from "./types";
 
 /**
  * This construct will create a custom resource that will manage the versioned stacks,
@@ -35,7 +35,7 @@ export class VersionedStackManager extends Construct {
   }
 
   private validateProps(): boolean {
-    return true;
+    return validateProps(this.props);
   }
 
   private createProductionPromoterProvider(): cr.Provider {

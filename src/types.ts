@@ -27,3 +27,27 @@ export interface IVersionedStackManagerProps {
    */
   readonly sortDirection?: "ASCENDING" | "DESCENDING";
 }
+
+export const validateProps = (props: IVersionedStackManagerProps): boolean => {
+  if (props.numberOfStacksToKeep < 1) {
+    throw new Error("numberOfStacksToKeep must be greater than or equal to 1");
+  }
+
+  if (!props.requestId) {
+    throw new Error("requestId must be provided");
+  }
+
+  if (!props.stackNamePrefix) {
+    throw new Error("stackNamePrefix must be provided");
+  }
+
+  if (
+    !!props.sortDirection &&
+    props.sortDirection !== "ASCENDING" &&
+    props.sortDirection !== "DESCENDING"
+  ) {
+    throw new Error("sortDirection must be either ASCENDING or DESCENDING");
+  }
+
+  return true;
+};

@@ -15,7 +15,7 @@ import type {
   CloudFormationCustomResourceUpdateEvent,
 } from "aws-lambda";
 
-import { IVersionedStackManagerProps } from "./types";
+import { IVersionedStackManagerProps, validateProps } from "./types";
 
 const cloudformation = new CloudFormationClient();
 
@@ -91,11 +91,23 @@ const NON_DELETED_STACK_STATUSES: StackStatus[] = [
   StackStatus.UPDATE_ROLLBACK_IN_PROGRESS,
 ];
 
-class VersionedStackManagerCreateAndUpdater {
+const sortStacksAscending = (stackA: StackSummary, stackB: StackSummary) => {
+  return (stackA?.StackName ?? "ZZZZZ") < (stackB?.StackName ?? "ZZZZZ")
+    ? -1
+    : 1;
+};
+
+const sortStacksDescending = (stackA: StackSummary, stackB: StackSummary) => {
+  return (stackA?.StackName ?? "AAAAA") < (stackB?.StackName ?? "AAAAA")
+    ? 1
+    : -1;
+};
+
+export class VersionedStackManagerCreateAndUpdater {
   constructor(
     private readonly resourceProperties: IVersionedStackManagerProps,
   ) {
-    // validate props
+    validateProps(resourceProperties);
   }
 
   public async createOrUpdate(): Promise<string[] | undefined> {
@@ -113,14 +125,10 @@ class VersionedStackManagerCreateAndUpdater {
     const stacksToDelete = relevantStacks
       .sort((stackA, stackB) => {
         if (this.resourceProperties.sortDirection === "ASCENDING") {
-          return (stackA?.StackName ?? "ZZZZZ") < (stackB?.StackName ?? "ZZZZZ")
-            ? -1
-            : 1;
+          return sortStacksAscending(stackA, stackB);
         }
 
-        return (stackA?.StackName ?? "AAAAA") < (stackB?.StackName ?? "AAAAA")
-          ? 1
-          : -1;
+        return sortStacksDescending(stackA, stackB);
       })
       .slice(this.resourceProperties.numberOfStacksToKeep);
 
@@ -128,7 +136,7 @@ class VersionedStackManagerCreateAndUpdater {
       `Deleting ${stacksToDelete.length} Stacks (dryRun: ${
         this.resourceProperties.dryRun ?? false
       }): `,
-      stacksToDelete.map((s) => s.StackName),
+      stacksToDelete.map((s) => s.StackName).join(","),
     );
 
     if (!this.resourceProperties.dryRun) {
