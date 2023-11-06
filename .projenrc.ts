@@ -10,6 +10,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenrcTs: true,
   repositoryUrl:
     "https://github.com/dkershner6/cdk-versioned-stack-manager.git",
+  majorVersion: 1,
 
   // deps: [],                /* Runtime dependencies of this module. */
   description:
@@ -24,7 +25,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
     "delete",
   ],
 
-  devDeps: ["@types/aws-lambda"] /* Build dependencies for this module. */,
+  devDeps: [
+    "@types/aws-lambda",
+    "aws-sdk-client-mock",
+    "esbuild",
+  ] /* Build dependencies for this module. */,
   bundledDeps: ["@aws-sdk/client-cloudformation"],
   packageName: "cdk-versioned-stack-manager" /* The "name" in package.json. */,
 
