@@ -19,77 +19,83 @@ import { IVersionedStackManagerProps, validateProps } from "./types";
  * @param props IVersionedStackManagerProps
  */
 export class VersionedStackManager extends Construct {
-  private readonly provider: cr.Provider;
+    private readonly provider: cr.Provider;
 
-  constructor(
-    scope: Construct,
-    private readonly id: string,
-    private readonly props: IVersionedStackManagerProps,
-  ) {
-    super(scope, id);
+    constructor(
+        scope: Construct,
+        private readonly id: string,
+        private readonly props: IVersionedStackManagerProps,
+    ) {
+        super(scope, id);
 
-    this.validateProps();
+        this.validateProps();
 
-    this.provider = this.createProductionPromoterProvider();
-    this.createResource();
-  }
+        this.provider = this.createProductionPromoterProvider();
+        this.createResource();
+    }
 
-  private validateProps(): boolean {
-    return validateProps(this.props);
-  }
+    private validateProps(): boolean {
+        return validateProps(this.props);
+    }
 
-  private createProductionPromoterProvider(): cr.Provider {
-    const providerFileName = "provider";
-    const providerPathTs = path.join(__dirname, `${providerFileName}.ts`);
-    const providerPathJs = path.join(__dirname, `${providerFileName}.js`);
+    private createProductionPromoterProvider(): cr.Provider {
+        const providerFileName = "provider";
+        const providerPathTs = path.join(__dirname, `${providerFileName}.ts`);
+        const providerPathJs = path.join(__dirname, `${providerFileName}.js`);
 
-    const onEventHandler = new lambdanodejs.NodejsFunction(
-      this,
-      `${this.id}-OnEventHandler`,
-      {
-        entry: fs.existsSync(providerPathTs) ? providerPathTs : providerPathJs,
-        handler: "onEvent",
-        runtime: lambda.Runtime.NODEJS_18_X,
-        timeout: cdk.Duration.minutes(5),
-      },
-    );
+        const onEventHandler = new lambdanodejs.NodejsFunction(
+            this,
+            `${this.id}-OnEventHandler`,
+            {
+                entry: fs.existsSync(providerPathTs)
+                    ? providerPathTs
+                    : providerPathJs,
+                handler: "onEvent",
+                runtime: lambda.Runtime.NODEJS_18_X,
+                timeout: cdk.Duration.minutes(5),
+            },
+        );
 
-    onEventHandler.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        resources: [
-          `arn:aws:cloudformation:${cdk.Stack.of(this).region}:${
-            cdk.Stack.of(this).account
-          }:stack/${this.props.stackNamePrefix}*`,
-        ],
-        actions: ["cloudformation:DeleteStack"],
-      }),
-    );
+        onEventHandler.addToRolePolicy(
+            new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
+                resources: [
+                    `arn:aws:cloudformation:${cdk.Stack.of(this).region}:${
+                        cdk.Stack.of(this).account
+                    }:stack/${this.props.stackNamePrefix}*`,
+                ],
+                actions: ["cloudformation:DeleteStack"],
+            }),
+        );
 
-    onEventHandler.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        resources: ["*"],
-        actions: ["cloudformation:ListStacks"],
-      }),
-    );
+        onEventHandler.addToRolePolicy(
+            new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
+                resources: ["*"],
+                actions: ["cloudformation:ListStacks"],
+            }),
+        );
 
-    return new cr.Provider(this, `${this.id}-VersionedStackManagerProvider`, {
-      onEventHandler,
-    });
-  }
+        return new cr.Provider(
+            this,
+            `${this.id}-VersionedStackManagerProvider`,
+            {
+                onEventHandler,
+            },
+        );
+    }
 
-  private createResource(): cdk.CustomResource {
-    return new cdk.CustomResource(
-      this,
-      `${this.id}-VersionedStackManagerResource`,
-      {
-        serviceToken: this.provider.serviceToken,
-        resourceType: "Custom::VersionedStackManager",
-        properties: this.props,
-      },
-    );
-  }
+    private createResource(): cdk.CustomResource {
+        return new cdk.CustomResource(
+            this,
+            `${this.id}-VersionedStackManagerResource`,
+            {
+                serviceToken: this.provider.serviceToken,
+                resourceType: "Custom::VersionedStackManager",
+                properties: this.props,
+            },
+        );
+    }
 }
 
 export * from "./types";
