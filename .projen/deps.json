@@ -28,6 +28,10 @@
       "type": "build"
     },
     {
+      "name": "dkershner6-projen-typescript",
+      "type": "build"
+    },
+    {
       "name": "esbuild",
       "type": "build"
     },
@@ -44,7 +48,15 @@
       "type": "build"
     },
     {
+      "name": "eslint-plugin-jest",
+      "type": "build"
+    },
+    {
       "name": "eslint-plugin-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-sonarjs",
       "type": "build"
     },
     {
@@ -89,6 +101,10 @@
     },
     {
       "name": "projen",
+      "type": "build"
+    },
+    {
+      "name": "projen-nvm",
       "type": "build"
     },
     {
