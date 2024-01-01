@@ -6,7 +6,6 @@ import {
     StackStatus,
     StackSummary,
 } from "@aws-sdk/client-cloudformation";
-
 import type {
     CloudFormationCustomResourceCreateEvent,
     CloudFormationCustomResourceDeleteEvent,
@@ -93,13 +92,19 @@ const NON_DELETED_STACK_STATUSES: StackStatus[] = [
     StackStatus.UPDATE_ROLLBACK_IN_PROGRESS,
 ];
 
-const sortStacksAscending = (stackA: StackSummary, stackB: StackSummary) => {
+const sortStacksAscending = (
+    stackA: StackSummary,
+    stackB: StackSummary,
+): number => {
     return (stackA?.StackName ?? "ZZZZZ") < (stackB?.StackName ?? "ZZZZZ")
         ? -1
         : 1;
 };
 
-const sortStacksDescending = (stackA: StackSummary, stackB: StackSummary) => {
+const sortStacksDescending = (
+    stackA: StackSummary,
+    stackB: StackSummary,
+): number => {
     return (stackA?.StackName ?? "AAAAA") < (stackB?.StackName ?? "AAAAA")
         ? 1
         : -1;

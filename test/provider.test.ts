@@ -4,6 +4,7 @@ import {
     ListStacksCommand,
 } from "@aws-sdk/client-cloudformation";
 import { mockClient } from "aws-sdk-client-mock";
+
 import { VersionedStackManagerCreateAndUpdater } from "../src/provider";
 import { IVersionedStackManagerProps } from "../src/types";
 

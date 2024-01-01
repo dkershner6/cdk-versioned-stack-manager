@@ -5,9 +5,9 @@ import * as cdk from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as lambdanodejs from "aws-cdk-lib/aws-lambda-nodejs";
-
 import * as cr from "aws-cdk-lib/custom-resources";
 import { Construct } from "constructs";
+
 import { IVersionedStackManagerProps, validateProps } from "./types";
 
 /**

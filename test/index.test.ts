@@ -17,5 +17,10 @@ new VersionedStackManager(stack, "TestConstruct", TEST_PROPS);
 it("should create Custom::VersionedStackManager with the correct props", () => {
     const template = Template.fromStack(stack);
 
-    template.hasResourceProperties("Custom::VersionedStackManager", TEST_PROPS);
+    expect(() =>
+        template.hasResourceProperties(
+            "Custom::VersionedStackManager",
+            TEST_PROPS,
+        ),
+    ).not.toThrow();
 });
